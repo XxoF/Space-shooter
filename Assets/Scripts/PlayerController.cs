@@ -8,6 +8,13 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float xMin, xMax, zMin, zMax;
 
+    public Transform firepoint;
+    public GameObject bullet;
+
+    public float firerate;
+
+    float nextfire;
+
     void FixedUpdate()
     {
         var hor = Input.GetAxis("Horizontal");
@@ -49,5 +56,26 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(rotationVector);
         }
                  
+    }
+
+    public void Update()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            Shoot();
+        }
+    }
+
+    void Shoot()
+    {
+        // Set delay to fire
+        if (Time.time > nextfire)
+        {
+            // Create bullet
+            Instantiate(bullet, firepoint.position, firepoint.rotation);
+
+            // Reset cooldown
+            nextfire = Time.time + firerate;
+        }
     }
 }
