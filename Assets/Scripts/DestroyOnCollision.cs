@@ -7,7 +7,7 @@ public class DestroyOnCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
+        if (other.CompareTag("Asteroid") || other.CompareTag("Bullet"))
         {
             Destroy(other.gameObject);
         }
