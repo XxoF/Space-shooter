@@ -6,7 +6,8 @@ public class AsteroidController : MonoBehaviour
 {
 
     public float speed;
-
+    public GameObject explosionEffect;
+    public Transform explosionPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +22,21 @@ public class AsteroidController : MonoBehaviour
         autoMove();
     }
 
+    // Destroy Asteroid when collided
     private void OnTriggerEnter(Collider other)
     {
-        // Destroy Asteroid when shooted
         if (other.CompareTag("Bullet"))
         {
-            Destroy(this.gameObject);
             Destroy(other.gameObject);
+            this.Exploded();
+        }
+
+
+        if (other.CompareTag("Player"))
+        {
+            this.Exploded();
+            other.GetComponent<PlayerController>().Exploded();
+            
         }
     }
 
@@ -37,5 +46,13 @@ public class AsteroidController : MonoBehaviour
         transform.Translate(backwardVector * speed * Time.deltaTime);
     }
 
+    private void Exploded()
+    {
+        float timeout = 3.0f;
+
+        var instance = Instantiate(explosionEffect, explosionPoint.position, explosionPoint.rotation);
+        Destroy(instance.gameObject, timeout);
+        Destroy(this.gameObject);
+    }
 
 }

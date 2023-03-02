@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public Transform firepoint;
     public GameObject bullet;
 
+    public Transform explosionPoint;
+    public GameObject explosionEffect;
+
     public float firerate;
 
     float nextfire;
@@ -77,5 +80,16 @@ public class PlayerController : MonoBehaviour
             // Reset cooldown
             nextfire = Time.time + firerate;
         }
+    }
+
+    // Player destroyed when hit asteroid
+    public void Exploded()
+    {
+        // Remove explosion effect when its done.
+        float timeout = 3.0f;
+
+        var instance = Instantiate(explosionEffect, explosionPoint.position, explosionPoint.rotation);
+        Destroy(instance.gameObject, timeout);
+        Destroy(this.gameObject);
     }
 }
