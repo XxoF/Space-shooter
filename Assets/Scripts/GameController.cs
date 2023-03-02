@@ -12,19 +12,20 @@ public class GameController : MonoBehaviour
     public float Y = 0;
     public float Z = 17;
 
+    public int count;
+    public float startWait;
+    public float cloneWait;
+    public float waveWait;
+
     private float randomX;
+
 
     void Start()
     {
-
-        spawnAsteriod();
+        StartCoroutine(Waves());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 
     void spawnAsteriod()
     {
@@ -32,9 +33,22 @@ public class GameController : MonoBehaviour
 
         Vector3 spawnPosition = new Vector3(randomX, 0, 17);
         Quaternion spawnRotation = asteroidPrefab.transform.rotation;
-
-
         Instantiate(asteroidPrefab, spawnPosition, spawnRotation);
+    }
+
+    IEnumerator Waves()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(startWait);
+            for (int i = 0; i <= count; i++)
+            {
+                spawnAsteriod();
+                yield return new WaitForSeconds(cloneWait);
+            }
+            yield return new WaitForSeconds(waveWait);
+        }
+        
     }
 
 }
