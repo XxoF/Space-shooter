@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class PlayerController : MonoBehaviour
     public GameObject explosionEffect;
 
     public float firerate;
+
+    public AudioSource explosionSoundEffect;
+    public AudioSource shootSoundEffect;
 
     float nextfire;
 
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
         {
             // Create bullet
             Instantiate(bullet, firepoint.position, firepoint.rotation);
+            shootSoundEffect.Play();
 
             // Reset cooldown
             nextfire = Time.time + firerate;
@@ -89,7 +94,16 @@ public class PlayerController : MonoBehaviour
         float timeout = 3.0f;
 
         var instance = Instantiate(explosionEffect, explosionPoint.position, explosionPoint.rotation);
+
+        playExplosionSFX();
+
         Destroy(instance.gameObject, timeout);
         Destroy(this.gameObject);
+    }
+
+    void playExplosionSFX()
+    {
+        // Cant use explosionSFX.Play() cause we destoy asteroid gameObject
+        AudioSource.PlayClipAtPoint(explosionSoundEffect.clip, transform.position);
     }
 }
