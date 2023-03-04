@@ -29,13 +29,20 @@ public class AsteroidController : MonoBehaviour
     // Destroy Asteroid when collided
     private void OnTriggerEnter(Collider other)
     {
+        // Got shooted by player
         if (other.CompareTag("Bullet"))
         {
             Destroy(other.gameObject);
             this.Exploded();
+
+
+            // Increment score
+            GameObject GameController = GameObject.FindGameObjectWithTag("GameController");
+            GameController.GetComponent<GameController>().addScore();
         }
 
 
+        // Hit to player
         if (other.CompareTag("Player"))
         {
             this.Exploded();

@@ -7,6 +7,9 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     public GameObject asteroidPrefab;
 
+    [SerializeField]
+    private int score;
+
     public float minX = -4.5f;
     public float maxX = 4.5f;
     public float Y = 0;
@@ -19,13 +22,18 @@ public class GameController : MonoBehaviour
 
     private float randomX;
 
+    
 
     void Start()
     {
+        score = 0;
         StartCoroutine(Waves());
     }
 
-
+    private void Update()
+    {
+        Debug.Log(score.ToString());
+    }
 
     void spawnAsteriod()
     {
@@ -51,4 +59,13 @@ public class GameController : MonoBehaviour
         
     }
 
+    public void addScore()
+    {
+        this.score += 1;
+    }
+
+    public int getScore()
+    {
+        return this.score;
+    }
 }
