@@ -47,6 +47,7 @@ public class AsteroidController : MonoBehaviour
         {
             this.Exploded();
             other.GetComponent<PlayerController>().Exploded();
+            Debug.Log("Hitted");
             
         }
     }

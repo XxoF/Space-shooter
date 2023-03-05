@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -22,17 +23,35 @@ public class GameController : MonoBehaviour
 
     private float randomX;
 
-    
+    public GameObject player;
+    public GameObject gameUI;
 
+    private bool gameOver;
     void Start()
     {
+        gameOver = false;
         score = 0;
         StartCoroutine(Waves());
     }
 
     private void Update()
     {
-        Debug.Log(score.ToString());
+        //Debug.Log(score.ToString());
+
+        // IF game is over
+        if (isGameOver())
+        {
+            gameOver = true;
+            gameUI.GetComponent<GameUIController>().GameOver();
+        }
+
+
+        if (gameOver && Input.GetKeyDown(KeyCode.S))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+
+
     }
 
     void spawnAsteriod()
@@ -46,7 +65,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator Waves()
     {
-        while (true)
+        while (!gameOver)
         {
             yield return new WaitForSeconds(startWait);
             for (int i = 0; i <= count; i++)
@@ -68,4 +87,10 @@ public class GameController : MonoBehaviour
     {
         return this.score;
     }
+
+    private bool isGameOver()
+    {
+        return !player.GetComponent<PlayerController>().isAlive();
+    }
+
 }

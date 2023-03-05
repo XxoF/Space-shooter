@@ -22,6 +22,14 @@ public class PlayerController : MonoBehaviour
 
     float nextfire;
 
+    public bool alive = true;
+
+    private void Start()
+    {
+        alive = true;
+        this.gameObject.SetActive(true);
+    }
+
     void FixedUpdate()
     {
         var hor = Input.GetAxis("Horizontal");
@@ -98,12 +106,22 @@ public class PlayerController : MonoBehaviour
         playExplosionSFX();
 
         Destroy(instance.gameObject, timeout);
-        Destroy(this.gameObject);
+
+
+        // We need gameobject still exist
+        gameObject.SetActive(false);
+        alive = false;
+
     }
 
-    void playExplosionSFX()
+    private void playExplosionSFX()
     {
         // Cant use explosionSFX.Play() cause we destoy asteroid gameObject
         AudioSource.PlayClipAtPoint(explosionSoundEffect.clip, transform.position);
+    }
+
+    public bool isAlive()
+    {
+        return alive;
     }
 }

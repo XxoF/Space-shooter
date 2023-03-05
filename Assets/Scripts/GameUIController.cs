@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreScript : MonoBehaviour
+public class GameUIController : MonoBehaviour
 {
-
     public static int scoreValue = 0;
-    public TextMeshProUGUI scoreUI;
+    public TextMeshProUGUI scoreUI, GameOverUI;
 
     void Start()
     {
+        GameOverUI.gameObject.SetActive(false);
         scoreUI.text = scoreValue.ToString();
     }
 
@@ -19,5 +19,10 @@ public class ScoreScript : MonoBehaviour
     {
         scoreValue = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().getScore();
         scoreUI.text = "Score: " + scoreValue;
+    }
+
+    public void GameOver()
+    {
+        GameOverUI.gameObject.SetActive(true);
     }
 }
